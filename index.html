@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados de Simulación de Sistemas</title>
+    <title>Simulación de Sistemas - Minimalista</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -12,10 +13,13 @@
         }
 
         body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
+            font-family: 'Courier New', monospace;
+            background: #1a1a2e;
+            color: #e6e6e6;
             overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 25% 25%, #16213e 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #0f3460 0%, transparent 50%);
         }
 
         .slideshow-container {
@@ -25,69 +29,96 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
 
         .slide {
             display: none;
             width: 90%;
-            max-width: 900px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            padding: 40px;
+            max-width: 1000px;
+            background: rgba(26, 26, 46, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 30px;
             text-align: center;
-            animation: slideIn 0.5s ease-in-out;
+            animation: fadeIn 0.5s ease-in-out;
+            overflow-y: auto;
+            max-height: 85vh;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff7700, #ff0055);
+            border-radius: 8px 8px 0 0;
         }
 
         .slide.active {
             display: block;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .slide h1 {
-            color: #667eea;
+            color: #ff7700;
             font-size: 2.5em;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
         }
 
         .slide h2 {
-            color: #764ba2;
-            font-size: 2em;
+            color: #ff0055;
+            font-size: 1.8em;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .slide h3 {
-            color: #555;
-            font-size: 1.5em;
+            color: #00b4d8;
+            font-size: 1.4em;
             margin: 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .slide p, .slide li {
-            font-size: 1.2em;
+            font-size: 1.1em;
             line-height: 1.6;
-            margin-bottom: 15px;
-            color: #666;
-        }
-
-        .emoji {
-            font-size: 1.5em;
+            margin-bottom: 12px;
+            color: #c4c4c4;
         }
 
         .highlight-box {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            border-radius: 15px;
+            background: rgba(255, 119, 0, 0.1);
+            border-radius: 8px;
             padding: 20px;
-            margin: 20px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 15px 0;
+            border-left: 4px solid #ff7700;
+        }
+
+        .intro-box {
+            background: rgba(0, 180, 216, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: left;
+            border-left: 4px solid #00b4d8;
         }
 
         .types-grid {
@@ -98,30 +129,41 @@
         }
 
         .type-card {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            border-radius: 15px;
+            background: rgba(26, 26, 46, 0.7);
+            border-radius: 8px;
             padding: 20px;
             text-align: center;
-            transform: scale(1);
-            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
         }
 
         .type-card:hover {
-            transform: scale(1.05);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .type-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin: 10px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .software-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            margin: 20px 0;
+            margin: 15px 0;
         }
 
         .software-card {
-            background: linear-gradient(135deg, #ffd3a5 0%, #fd9853 100%);
-            border-radius: 10px;
+            background: rgba(255, 0, 85, 0.1);
+            border-radius: 8px;
             padding: 15px;
             text-align: center;
+            border-left: 4px solid #ff0055;
         }
 
         .applications-list {
@@ -130,36 +172,38 @@
         }
 
         .applications-list li {
-            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 10px;
+            background: rgba(0, 180, 216, 0.1);
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             gap: 10px;
+            border-left: 4px solid #00b4d8;
         }
 
         .steps-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            margin: 20px 0;
+            margin: 15px 0;
         }
 
         .step-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 15px;
-            padding: 20px;
+            background: rgba(255, 119, 0, 0.1);
+            color: #e6e6e6;
+            border-radius: 8px;
+            padding: 15px;
             text-align: center;
+            border-left: 4px solid #ff7700;
         }
 
         .comparison-table {
-            background: white;
-            border-radius: 15px;
+            background: rgba(26, 26, 46, 0.7);
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin: 20px 0;
+            margin: 15px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .comparison-table table {
@@ -168,253 +212,993 @@
         }
 
         .comparison-table th {
-            background: #667eea;
+            background: rgba(255, 0, 85, 0.2);
             color: white;
-            padding: 15px;
-            font-size: 1.1em;
+            padding: 12px;
+            font-size: 1em;
+            text-transform: uppercase;
         }
 
         .comparison-table td {
-            padding: 12px;
-            border-bottom: 1px solid #eee;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             text-align: left;
+            font-size: 0.95em;
         }
 
         .comparison-table tr:nth-child(even) {
-            background: #f9f9f9;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .methodology-box {
+            background: rgba(0, 180, 216, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: left;
+            border-left: 4px solid #00b4d8;
+        }
+
+        .conclusion-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .conclusion-card {
+            background: rgba(255, 119, 0, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: left;
+            border-left: 4px solid #ff7700;
         }
 
         .navigation {
             position: absolute;
-            bottom: 30px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 20px;
+            gap: 15px;
         }
 
         .nav-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: rgba(255, 119, 0, 0.2);
             color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
+            border: 1px solid rgba(255, 119, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 1em;
+            font-family: 'Courier New', monospace;
             font-weight: bold;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .nav-btn:hover {
-            transform: scale(1.1);
+            background: rgba(255, 119, 0, 0.4);
+            transform: scale(1.05);
         }
 
         .nav-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.3;
             cursor: not-allowed;
         }
 
         .slide-counter {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255,255,255,0.9);
-            padding: 10px 20px;
-            border-radius: 20px;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 119, 0, 0.2);
+            padding: 8px 15px;
+            border-radius: 4px;
             font-weight: bold;
-            color: #667eea;
+            color: #ff7700;
+            font-size: 0.9em;
+            border: 1px solid rgba(255, 119, 0, 0.3);
+        }
+
+        .section-indicator {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 180, 216, 0.2);
+            color: #00b4d8;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid rgba(0, 180, 216, 0.3);
+        }
+
+        .definition-box {
+            background: rgba(255, 0, 85, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #ff0055;
+        }
+
+        .example-box {
+            background: rgba(0, 180, 216, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #00b4d8;
+        }
+
+        .important-note {
+            background: rgba(255, 119, 0, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #ff7700;
+        }
+
+        .integrantes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .integrante-card {
+            background: rgba(26, 26, 46, 0.7);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .integrante-card h4 {
+            color: #ff7700;
+            margin-bottom: 10px;
+        }
+
+        .retro-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff7700, #ff0055, #00b4d8, transparent);
+            margin: 20px 0;
+            border: none;
+        }
+
+        .pixel-corner {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+        }
+
+        .corner-tl {
+            top: 0;
+            left: 0;
+            border-top: 2px solid #ff7700;
+            border-left: 2px solid #ff7700;
+        }
+
+        .corner-tr {
+            top: 0;
+            right: 0;
+            border-top: 2px solid #ff0055;
+            border-right: 2px solid #ff0055;
+        }
+
+        .corner-bl {
+            bottom: 0;
+            left: 0;
+            border-bottom: 2px solid #00b4d8;
+            border-left: 2px solid #00b4d8;
+        }
+
+        .corner-br {
+            bottom: 0;
+            right: 0;
+            border-bottom: 2px solid #ff7700;
+            border-right: 2px solid #ff7700;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        @media (max-width: 768px) {
+            .types-grid, .software-grid, .steps-container, 
+            .conclusion-grid, .integrantes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .slide {
+                padding: 20px 15px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="slideshow-container">
         <div class="slide-counter">
-            <span id="currentSlide">1</span> / <span id="totalSlides">8</span>
+            <span id="currentSlide">1</span>/<span id="totalSlides">21</span>
         </div>
+        <div class="section-indicator" id="sectionIndicator">INTRODUCCIÓN</div>
 
-        <!-- Slide 1: Título -->
+        <!-- Slide 1: Título Principal con Integrantes -->
         <div class="slide active">
-            <h1>🔍 RESULTADOS DE NUESTRA INVESTIGACIÓN</h1>
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h1 class="glow-text">SIMULACIÓN DE SISTEMAS</h1>
             <div class="highlight-box">
-                <h2>¿Qué descubrimos sobre la Simulación de Sistemas?</h2>
-                <p>¡Vamos a explorar los hallazgos más importantes de manera fácil y divertida! 🚀</p>
+                <h2>Fundamentos, Algoritmos y Aplicaciones</h2>
+                <p>Análisis teórico y aplicaciones prácticas</p>
+            </div>
+            
+            <div class="intro-box">
+                <h3>Universidad Nacional de Juliaca</h3>
+                <p><strong>Materia:</strong> 070183 - Simulación de Sistemas</p>
+                <p><strong>Docente:</strong> Ing. Samuel Quispe</p>
+                <p><strong>Fecha:</strong> 8 de agosto del 2025</p>
+            </div>
+            
+            <hr class="retro-divider">
+            
+            <h3>Integrantes del Proyecto</h3>
+            <div class="integrantes-grid">
+                <div class="integrante-card">
+                    <h4><i class="fas fa-user"></i> Integrante 1</h4>
+                    <p>Código: 123456</p>
+                </div>
+                <div class="integrante-card">
+                    <h4><i class="fas fa-user"></i> Integrante 2</h4>
+                    <p>Código: 234567</p>
+                </div>
+                <div class="integrante-card">
+                    <h4><i class="fas fa-user"></i> Integrante 3</h4>
+                    <p>Código: 345678</p>
+                </div>
+                <div class="integrante-card">
+                    <h4><i class="fas fa-user"></i> Integrante 4</h4>
+                    <p>Código: 456789</p>
+                </div>
+                <div class="integrante-card">
+                    <h4><i class="fas fa-user"></i> Integrante 5</h4>
+                    <p>Código: 567890</p>
+                </div>
+                <div class="integrante-card">
+                    <h4><i class="fas fa-user"></i> Integrante 6</h4>
+                    <p>Código: 678901</p>
+                </div>
             </div>
         </div>
 
-        <!-- Slide 2: Sistemas y Modelos -->
+        <!-- Slide 2: ¿Qué es la Simulación? -->
         <div class="slide">
-            <h2><span class="emoji">🏗️</span> Sistemas y Modelos</h2>
-            <div class="highlight-box">
-                <h3>¿Qué encontramos?</h3>
-                <p><strong>Sistema:</strong> Como una fábrica de juguetes 🏭 - muchas partes trabajando juntas</p>
-                <p><strong>Modelo:</strong> Como un plano 📋 - una versión más simple para entender cómo funciona</p>
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-question-circle"></i> ¿Qué es la Simulación?</h2>
+            <div class="definition-box">
+                <h3>Definición</h3>
+                <p>Es como crear una <strong>copia virtual</strong> de algo real (una fábrica, un hospital, una ciudad) en la computadora para poder experimentar sin riesgos.</p>
             </div>
-            <div class="highlight-box">
-                <p>💡 <strong>Dato curioso:</strong> ¡Los modelos son como los videojuegos! Simplifican la realidad pero nos permiten experimentar sin riesgos.</p>
+            <div class="example-box">
+                <h3><i class="fas fa-lightbulb"></i> Analogías</h3>
+                <p>• <strong>SimCity:</strong> Simulas una ciudad completa</p>
+                <p>• <strong>Flight Simulator:</strong> Simulas volar un avión</p>
+                <p>• <strong>FIFA:</strong> Simulas un partido de fútbol</p>
+            </div>
+            <div class="important-note">
+                <p><strong><i class="fas fa-info-circle"></i> Valor:</strong> Permite probar escenarios sin gastar dinero real o causar problemas reales.</p>
             </div>
         </div>
 
-        <!-- Slide 3: Tipos de Simulación -->
+        <!-- Slide 3: Sistemas y Modelos -->
         <div class="slide">
-            <h2><span class="emoji">📊</span> Tipos de Simulación</h2>
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-sitemap"></i> Sistemas y Modelos</h2>
             <div class="types-grid">
                 <div class="type-card">
-                    <h3>🌊 Continua</h3>
-                    <p>Como el agua fluyendo - cambios suaves y constantes</p>
+                    <h3><i class="fas fa-globe"></i> SISTEMA</h3>
+                    <p>Un conjunto de elementos que interactúan entre sí</p>
+                    <div class="example-box">
+                        <p><strong>Ejemplo:</strong> Una escuela</p>
+                        <p>• Estudiantes</p>
+                        <p>• Profesores</p>
+                        <p>• Aulas</p>
+                        <p>• Horarios</p>
+                    </div>
                 </div>
                 <div class="type-card">
-                    <h3>🎯 Discreta</h3>
-                    <p>Como un videojuego por turnos - cambios en momentos específicos</p>
+                    <h3><i class="fas fa-cube"></i> MODELO</h3>
+                    <p>Una representación simplificada del sistema</p>
+                    <div class="example-box">
+                        <p><strong>Ejemplo:</strong> Plano de la escuela</p>
+                        <p>• Solo lo importante</p>
+                        <p>• Más fácil de entender</p>
+                        <p>• Se puede modificar</p>
+                    </div>
+                </div>
+            </div>
+            <div class="important-note">
+                <p><strong><i class="fas fa-link"></i> Relación:</strong> El sistema es la realidad completa, el modelo es la versión que podemos estudiar.</p>
+            </div>
+        </div>
+
+        <!-- Slide 4: Tipos de Simulación - Continua y Discreta -->
+        <div class="slide">
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-chart-line"></i> Tipos de Simulación (1/2)</h2>
+            <div class="types-grid">
+                <div class="type-card">
+                    <h3><i class="fas fa-wave-square"></i> CONTINUA</h3>
+                    <p>Los cambios son suaves y constantes</p>
+                    <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Simulación Continua" class="type-image">
+                    <div class="example-box">
+                        <p><strong>Como:</strong> Llenar una piscina</p>
+                        <p>• El agua sube gradualmente</p>
+                        <p>• No hay saltos bruscos</p>
+                        <p>• Siempre está cambiando</p>
+                    </div>
                 </div>
                 <div class="type-card">
-                    <h3>🔒 Determinística</h3>
-                    <p>Como una calculadora - mismo resultado siempre</p>
+                    <h3><i class="fas fa-step-forward"></i> DISCRETA</h3>
+                    <p>Los cambios ocurren en momentos específicos</p>
+                    <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Simulación Discreta" class="type-image">
+                    <div class="example-box">
+                        <p><strong>Como:</strong> Cola del banco</p>
+                        <p>• Llega una persona</p>
+                        <p>• Se atiende a alguien</p>
+                        <p>• Eventos específicos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="important-note">
+                <p><strong><i class="fas fa-mobile-alt"></i> Analogía:</strong> Continua = Video, Discreta = Secuencia de fotos</p>
+            </div>
+        </div>
+
+        <!-- Slide 5: Tipos de Simulación - Determinística y Estocástica -->
+        <div class="slide">
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-dice"></i> Tipos de Simulación (2/2)</h2>
+            <div class="types-grid">
+                <div class="type-card">
+                    <h3><i class="fas fa-calculator"></i> DETERMINÍSTICA</h3>
+                    <p>Siempre da el mismo resultado</p>
+                    <img src="https://images.unsplash.com/photo-1587145820266-a5951ee6f620?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Simulación Determinística" class="type-image">
+                    <div class="example-box">
+                        <p><strong>Como:</strong> Una calculadora</p>
+                        <p>• 2 + 2 = 4 (siempre)</p>
+                        <p>• Predecible</p>
+                        <p>• Sin sorpresas</p>
+                    </div>
                 </div>
                 <div class="type-card">
-                    <h3>🎲 Estocástica</h3>
-                    <p>Como lanzar dados - resultados aleatorios</p>
+                    <h3><i class="fas fa-dice-five"></i> ESTOCÁSTICA</h3>
+                    <p>Incluye elementos aleatorios</p>
+                    <img src="https://images.unsplash.com/photo-1516383740770-fbcc5ccbece0?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Simulación Estocástica" class="type-image">
+                    <div class="example-box">
+                        <p><strong>Como:</strong> Juego de dados</p>
+                        <p>• Resultados variables</p>
+                        <p>• Incluye probabilidad</p>
+                        <p>• Más realista</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 4: Rol de la Simulación -->
+        <!-- Slide 6: Tipos de Simulación - Estáticos y Dinámicos -->
         <div class="slide">
-            <h2><span class="emoji">🎯</span> ¿Para qué sirve la Simulación?</h2>
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-photo-video"></i> Más Tipos de Simulación</h2>
+            <div class="types-grid">
+                <div class="type-card">
+                    <h3><i class="fas fa-camera"></i> ESTÁTICOS</h3>
+                    <p>Representan un momento específico</p>
+                    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Simulación Estática" class="type-image">
+                    <div class="example-box">
+                        <p><strong>Como:</strong> Una fotografía</p>
+                        <p>• Momento congelado</p>
+                        <p>• Sin evolución temporal</p>
+                        <p>• Análisis puntual</p>
+                    </div>
+                </div>
+                <div class="type-card">
+                    <h3><i class="fas fa-film"></i> DINÁMICOS</h3>
+                    <p>Evolucionan con el tiempo</p>
+                    <img src="https://images.unsplash.com/photo-1536240478700-b869070f9279?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Simulación Dinámica" class="type-image">
+                    <div class="example-box">
+                        <p><strong>Como:</strong> Una película</p>
+                        <p>• Cambia continuamente</p>
+                        <p>• Evolución temporal</p>
+                        <p>• Análisis de procesos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Rol de la Simulación -->
+        <div class="slide">
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-bullseye"></i> ¿Para qué sirve la Simulación?</h2>
             <div class="highlight-box">
-                <h3>Es como tener una máquina del tiempo 🕐</h3>
-                <p>Nos permite ver qué pasaría SI...</p>
-                <ul style="text-align: left; margin: 20px;">
-                    <li>🚗 ¿Cambiamos las rutas de autobuses?</li>
-                    <li>🏥 ¿Abrimos más salas en el hospital?</li>
-                    <li>🏭 ¿Agregamos más máquinas en la fábrica?</li>
-                    <li>📱 ¿Lanzamos un nuevo producto?</li>
-                </ul>
+                <h3><i class="fas fa-rocket"></i> Es como tener superpoderes</h3>
+                <p>Te permite ver el futuro antes de que pase</p>
             </div>
-            <p><strong>¡Sin riesgos y sin gastar dinero real! 💰</strong></p>
+            <div class="steps-container">
+                <div class="step-card">
+                    <h3><i class="fas fa-crystal-ball"></i> PREDICCIÓN</h3>
+                    <p>¿Qué pasará si...?</p>
+                </div>
+                <div class="step-card">
+                    <h3><i class="fas fa-tachometer-alt"></i> OPTIMIZACIÓN</h3>
+                    <p>¿Cuál es la mejor forma?</p>
+                </div>
+                <div class="step-card">
+                    <h3><i class="fas fa-flask"></i> EXPERIMENTACIÓN</h3>
+                    <p>Probar sin riesgos</p>
+                </div>
+                <div class="step-card">
+                    <h3><i class="fas fa-graduation-cap"></i> APRENDIZAJE</h3>
+                    <p>Entender cómo funciona</p>
+                </div>
+            </div>
+            <div class="example-box">
+                <h3><i class="fas fa-building"></i> Ejemplos Reales:</h3>
+                <p>• <strong>McDonald's:</strong> ¿Cuántas cajas necesito en hora pico?</p>
+                <p>• <strong>Netflix:</strong> ¿Qué servidores necesito para una nueva serie?</p>
+                <p>• <strong>Hospital:</strong> ¿Cuántos doctores para emergencias?</p>
+            </div>
         </div>
 
-        <!-- Slide 5: Software -->
+        <!-- Slide 8: Software para Simulación -->
         <div class="slide">
-            <h2><span class="emoji">💻</span> Herramientas de Simulación</h2>
-            <p>Como diferentes apps para diferentes necesidades:</p>
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-laptop-code"></i> Herramientas de Simulación</h2>
+            <p>Como diferentes apps para diferentes propósitos:</p>
             <div class="software-grid">
                 <div class="software-card">
-                    <h3>🎮 Arena</h3>
-                    <p>Para fábricas y servicios</p>
+                    <h3><i class="fas fa-gamepad"></i> Arena</h3>
+                    <p><strong>Para:</strong> Fábricas, servicios</p>
+                    <p><strong>Como:</strong> Minecraft para ingenieros</p>
                 </div>
                 <div class="software-card">
-                    <h3>🔧 ProModel</h3>
-                    <p>Fácil de usar para principiantes</p>
+                    <h3><i class="fas fa-tools"></i> ProModel</h3>
+                    <p><strong>Para:</strong> Manufactura</p>
+                    <p><strong>Como:</strong> Legos digitales</p>
                 </div>
                 <div class="software-card">
-                    <h3>🧮 Matlab</h3>
-                    <p>Para ingenieros y energía</p>
+                    <h3><i class="fas fa-calculator"></i> Matlab/Simulink</h3>
+                    <p><strong>Para:</strong> Ingeniería, energía</p>
+                    <p><strong>Como:</strong> AutoCAD científico</p>
                 </div>
                 <div class="software-card">
-                    <h3>🌟 AnyLogic</h3>
-                    <p>Hace de todo un poco</p>
+                    <h3><i class="fas fa-star"></i> AnyLogic</h3>
+                    <p><strong>Para:</strong> Todo un poco</p>
+                    <p><strong>Como:</strong> Suite de Office</p>
                 </div>
                 <div class="software-card">
-                    <h3>📚 GPSS</h3>
-                    <p>El abuelo de todos</p>
+                    <h3><i class="fas fa-book"></i> GPSS</h3>
+                    <p><strong>Para:</strong> Enseñanza</p>
+                    <p><strong>Como:</strong> Calculadora avanzada</p>
                 </div>
                 <div class="software-card">
-                    <h3>⚙️ SIMAN</h3>
-                    <p>Para aprender en la uni</p>
+                    <h3><i class="fas fa-cog"></i> SIMAN</h3>
+                    <p><strong>Para:</strong> Academia</p>
+                    <p><strong>Como:</strong> Lenguaje de programación</p>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 6: Aplicaciones -->
+        <!-- Slide 9: Aplicaciones - Industria -->
         <div class="slide">
-            <h2><span class="emoji">🌍</span> ¿Dónde se usa la Simulación?</h2>
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-industry"></i> Aplicaciones: Industria</h2>
+            <div class="highlight-box">
+                <h3>¿Cómo se usa en las fábricas?</h3>
+            </div>
             <ul class="applications-list">
-                <li><span class="emoji">🏭</span> <strong>Industria:</strong> Optimizar fábricas como si fueran videojuegos de estrategia</li>
-                <li><span class="emoji">🚛</span> <strong>Transporte:</strong> Mejorar el tráfico y rutas de delivery</li>
-                <li><span class="emoji">🔋</span> <strong>Energía:</strong> Diseñar paneles solares más eficientes</li>
-                <li><span class="emoji">🏥</span> <strong>Salud:</strong> Planificar hospitales para emergencias</li>
-                <li><span class="emoji">💼</span> <strong>Empresas:</strong> Tomar mejores decisiones de negocio</li>
+                <li><i class="fas fa-cog"></i> <strong>Líneas de producción:</strong> ¿Cuántas máquinas necesito?</li>
+                <li><i class="fas fa-pallet"></i> <strong>Inventarios:</strong> ¿Cuánto producto guardar?</li>
+                <li><i class="fas fa-tools"></i> <strong>Mantenimiento:</strong> ¿Cuándo reparar las máquinas?</li>
+                <li><i class="fas fa-hard-hat"></i> <strong>Personal:</strong> ¿Cuántos trabajadores en cada turno?</li>
             </ul>
+            <div class="example-box">
+                <h3><i class="fas fa-hamburger"></i> Ejemplo: McDonald's</h3>
+                <p>Simulan su cocina para saber:</p>
+                <p>• ¿Cuántas freidoras necesitan?</p>
+                <p>• ¿Qué tan rápido deben cocinar?</p>
+                <p>• ¿Cuánto tiempo esperará el cliente?</p>
+            </div>
         </div>
 
-        <!-- Slide 7: Pasos Metodológicos -->
+        <!-- Slide 10: Aplicaciones - Transporte -->
         <div class="slide">
-            <h2><span class="emoji">🗺️</span> Pasos para hacer Simulación</h2>
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-car"></i> Aplicaciones: Transporte</h2>
+            <ul class="applications-list">
+                <li><i class="fas fa-traffic-light"></i> <strong>Tráfico urbano:</strong> Optimizar semáforos para menos embotellamientos</li>
+                <li><i class="fas fa-plane"></i> <strong>Aeropuertos:</strong> Organizar vuelos y equipaje</li>
+                <li><i class="fas fa-ship"></i> <strong>Puertos:</strong> Manejar carga de barcos</li>
+                <li><i class="fas fa-bus"></i> <strong>Transporte público:</strong> Rutas más eficientes</li>
+            </ul>
+            <div class="example-box">
+                <h3><i class="fas fa-traffic-light"></i> Ejemplo: Semáforos Inteligentes</h3>
+                <p>En Lima simularon el tráfico para:</p>
+                <p>• Reducir el tiempo en rojo</p>
+                <p>• Sincronizar semáforos</p>
+                <p>• Menos contaminación</p>
+            </div>
+        </div>
+
+        <!-- Slide 11: Aplicaciones - Energía y Salud -->
+        <div class="slide">
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-bolt"></i><i class="fas fa-heartbeat"></i> Aplicaciones: Energía y Salud</h2>
+            <div class="types-grid">
+                <div class="type-card">
+                    <h3><i class="fas fa-bolt"></i> ENERGÍA</h3>
+                    <div class="example-box">
+                        <p><strong>Paneles solares:</strong></p>
+                        <p>• ¿Cuántos necesito?</p>
+                        <p>• ¿Dónde ponerlos?</p>
+                        <p>• ¿Cuánta energía producirán?</p>
+                    </div>
+                </div>
+                <div class="type-card">
+                    <h3><i class="fas fa-heartbeat"></i> SALUD</h3>
+                    <div class="example-box">
+                        <p><strong>Hospitales:</strong></p>
+                        <p>• ¿Cuántas camas en emergencias?</p>
+                        <p>• ¿Cuántos doctores de guardia?</p>
+                        <p>• ¿Cómo manejar una epidemia?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="important-note">
+                <p><strong><i class="fas fa-globe-americas"></i> Durante COVID-19:</strong> Los hospitales usaron simulación para prepararse y saber cuántas camas ICU necesitarían.</p>
+            </div>
+        </div>
+
+        <!-- Slide 12: Pasos de un Proyecto - Parte 1 -->
+        <div class="slide">
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-map"></i> Pasos para hacer Simulación (1/2)</h2>
             <p>Como una receta de cocina, hay que seguir el orden:</p>
             <div class="steps-container">
                 <div class="step-card">
-                    <h3>1️⃣ Definir el Problema</h3>
-                    <p>¿Qué queremos solucionar?</p>
+                    <h3><i class="fas fa-1"></i> DEFINIR EL PROBLEMA</h3>
+                    <p>¿Qué queremos solucionar exactamente?</p>
+                    <div style="font-size: 0.9em; margin-top: 10px;">
+                        <p>Ejemplo: "Los clientes esperan mucho en el banco"</p>
+                    </div>
                 </div>
                 <div class="step-card">
-                    <h3>2️⃣ Crear el Modelo</h3>
-                    <p>Hacer el "plano" del sistema</p>
+                    <h3><i class="fas fa-2"></i> MODELO CONCEPTUAL</h3>
+                    <p>Dibujar cómo funciona el sistema</p>
+                    <div style="font-size: 0.9em; margin-top: 10px;">
+                        <p>Ejemplo: Diagrama del banco con cajas y colas</p>
+                    </div>
                 </div>
                 <div class="step-card">
-                    <h3>3️⃣ Programar</h3>
-                    <p>Construir en la computadora</p>
+                    <h3><i class="fas fa-3"></i> CONSTRUIR EN COMPUTADORA</h3>
+                    <p>Programar el modelo</p>
+                    <div style="font-size: 0.9em; margin-top: 10px;">
+                        <p>Usar Arena, ProModel, etc.</p>
+                    </div>
                 </div>
                 <div class="step-card">
-                    <h3>4️⃣ Verificar</h3>
-                    <p>¿Funciona correctamente?</p>
-                </div>
-                <div class="step-card">
-                    <h3>5️⃣ Experimentar</h3>
-                    <p>Probar diferentes escenarios</p>
-                </div>
-                <div class="step-card">
-                    <h3>6️⃣ Analizar</h3>
-                    <p>Interpretar los resultados</p>
+                    <h3><i class="fas fa-4"></i> VERIFICAR Y VALIDAR</h3>
+                    <p>¿Funciona bien? ¿Es realista?</p>
+                    <div style="font-size: 0.9em; margin-top: 10px;">
+                        <p>Comparar con la realidad</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 8: Tabla Comparativa Simplificada -->
+        <!-- Slide 13: Pasos de un Proyecto - Parte 2 -->
         <div class="slide">
-            <h2><span class="emoji">📋</span> Resumen de Autores</h2>
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-microscope"></i> Pasos para hacer Simulación (2/2)</h2>
+            <div class="steps-container">
+                <div class="step-card">
+                    <h3><i class="fas fa-5"></i> DISEÑAR EXPERIMENTOS</h3>
+                    <p>Planear qué vamos a probar</p>
+                    <div style="font-size: 0.9em; margin-top: 10px;">
+                        <p>"¿Qué pasa con 2, 3 o 4 cajas?"</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <h3><i class="fas fa-6"></i> EJECUTAR SIMULACIÓN</h3>
+                    <p>Correr el programa y recoger datos</p>
+                    <div style="font-size: 0.9em; margin-top: 10px;">
+                        <p>Dejar que la computadora trabaje</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <h3><i class="fas fa-7"></i> ANALIZAR RESULTADOS</h3>
+                    <p>Interpretar qué significan los números</p>
+                    <div style="font-size: 0.9em; margin-top: 10px;">
+                        <p>Hacer gráficas y comparaciones</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <h3><i class="fas fa-8"></i> CONCLUSIONES</h3>
+                    <p>Decidir qué hacer</p>
+                    <div style="font-size: 0.9em; margin-top: 10px;">
+                        <p>"Necesitamos 3 cajas en hora pico"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Metodología de Investigación -->
+        <div class="slide">
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-book"></i> Cómo hicimos esta investigación</h2>
+            <div class="methodology-box">
+                <h3><i class="fas fa-search"></i> Enfoque: Teórico-documental</h3>
+                <p>No hicimos experimentos, sino que estudiamos lo que otros científicos han descubierto.</p>
+            </div>
+            <div class="steps-container">
+                <div class="step-card">
+                    <h3><i class="fas fa-book-open"></i> RECOLECCIÓN DE FUENTES</h3>
+                    <p>Buscamos libros y artículos importantes sobre simulación</p>
+                </div>
+                <div class="step-card">
+                    <h3><i class="fas fa-analytics"></i> ANÁLISIS</h3>
+                    <p>Estudiamos las ideas principales de cada autor</p>
+                </div>
+                <div class="step-card">
+                    <h3><i class="fas fa-balance-scale"></i> COMPARACIÓN</h3>
+                    <p>Vimos en qué coinciden y difieren los autores</p>
+                </div>
+                <div class="step-card">
+                    <h3><i class="fas fa-puzzle-piece"></i> SÍNTESIS</h3>
+                    <p>Combinamos todo en una explicación coherente</p>
+                </div>
+            </div>
+            <div class="important-note">
+                <p><strong><i class="fas fa-bullseye"></i> Objetivo:</strong> Entender la simulación como disciplina científica, no hacer simulaciones nosotros.</p>
+            </div>
+        </div>
+
+        <!-- Slide 15: Resultados - Introducción -->
+        <div class="slide">
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-search"></i> RESULTADOS: Lo que descubrimos</h2>
+            <div class="highlight-box">
+                <h3><i class="fas fa-chart-bar"></i> Análisis de la literatura científica</h3>
+                <p>Estudiamos las ideas de los mejores expertos en simulación del mundo</p>
+            </div>
+            <div class="types-grid">
+                <div class="type-card">
+                    <h3><i class="fas fa-check-circle"></i> CONSENSOS</h3>
+                    <p>En qué están de acuerdo todos los expertos</p>
+                </div>
+                <div class="type-card">
+                    <h3><i class="fas fa-exchange-alt"></i> DIFERENCIAS</h3>
+                    <p>En qué tienen opiniones distintas</p>
+                </div>
+            </div>
+            <div class="important-note">
+                <p><strong><i class="fas fa-bullseye"></i> Resultado principal:</strong> La simulación es una ciencia madura con bases sólidas y múltiples aplicaciones.</p>
+            </div>
+        </div>
+
+        <!-- Slide 16: Resultados - Sistemas y Modelos -->
+        <div class="slide">
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-sitemap"></i> RESULTADO: Sistemas y Modelos</h2>
+            <div class="definition-box">
+                <h3><i class="fas fa-bullseye"></i> LO QUE ENCONTRAMOS:</h3>
+                <p><strong>TODOS los autores coinciden:</strong></p>
+                <p>• Sistema = Conjunto de cosas que trabajan juntas</p>
+                <p>• Modelo = Versión simplificada para estudiar</p>
+            </div>
+            <div class="example-box">
+                <h3><i class="fas fa-users"></i> Autores principales:</h3>
+                <p>• <strong>Bertalanffy (1968):</strong> "Padre de la teoría de sistemas"</p>
+                <p>• <strong>Barceló (1996):</strong> "Los modelos son herramientas de análisis"</p>
+                <p>• <strong>García Dunna (2013):</strong> "Los modelos permiten experimentar"</p>
+            </div>
+            <div class="important-note">
+                <p><strong><i class="fas fa-lightbulb"></i> Conclusión:</strong> Hay un consenso total sobre estas definiciones básicas.</p>
+            </div>
+        </div>
+
+        <!-- Slide 17: Resultados - Tipos de Simulación -->
+        <div class="slide">
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-chart-pie"></i> RESULTADO: Tipos de Simulación</h2>
+            <div class="highlight-box">
+                <h3><i class="fas fa-project-diagram"></i> CLASIFICACIÓN UNIVERSAL</h3>
+                <p>Todos los expertos usan la misma clasificación:</p>
+            </div>
+            <div class="types-grid">
+                <div class="type-card">
+                    <h3><i class="fas fa-clock"></i> POR TIEMPO</h3>
+                    <p>• Continua</p>
+                    <p>• Discreta</p>
+                </div>
+                <div class="type-card">
+                    <h3><i class="fas fa-dice"></i> POR ALEATORIEDAD</h3>
+                    <p>• Determinística</p>
+                    <p>• Estocástica</p>
+                </div>
+                <div class="type-card">
+                    <h3><i class="fas fa-photo-video"></i> POR EVOLUCIÓN</h3>
+                    <p>• Estática</p>
+                    <p>• Dinámica</p>
+                </div>
+                <div class="type-card">
+                    <h3><i class="fas fa-blender-phone"></i> TENDENCIA NUEVA</h3>
+                    <p>• Híbridas</p>
+                    <p>• Multimétodo</p>
+                </div>
+            </div>
+            <div class="important-note">
+                <p><strong><i class="fas fa-chart-line"></i> Evolución:</strong> Los tipos clásicos se mantienen, pero aparecen enfoques híbridos.</p>
+            </div>
+        </div>
+
+        <!-- Slide 18: Resultados - Software -->
+        <div class="slide">
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-laptop-code"></i> RESULTADO: Evolución del Software</h2>
+            <div class="software-grid">
+                <div class="software-card">
+                    <h3><i class="fas fa-industry"></i> MANUFACTURA</h3>
+                    <p><strong>Arena & ProModel</strong></p>
+                    <p>Líderes consolidados</p>
+                </div>
+                <div class="software-card">
+                    <h3><i class="fas fa-bolt"></i> INGENIERÍA</h3>
+                    <p><strong>Matlab/Simulink</strong></p>
+                    <p>Especial para energía</p>
+                </div>
+                <div class="software-card">
+                    <h3><i class="fas fa-star"></i> MULTIMÉTODO</h3>
+                    <p><strong>AnyLogic</strong></p>
+                    <p>La nueva generación</p>
+                </div>
+                <div class="software-card">
+                    <h3><i class="fas fa-graduation-cap"></i> ACADÉMICO</h3>
+                    <p><strong>GPSS & SIMAN</strong></p>
+                    <p>Para aprender</p>
+                </div>
+                <div class="software-card">
+                    <h3><i class="fas fa-cloud"></i> FUTURO</h3>
+                    <p><strong>Plataformas Web</strong></p>
+                    <p>Simulación en la nube</p>
+                </div>
+                <div class="software-card">
+                    <h3><i class="fas fa-paint-brush"></i> TENDENCIA</h3>
+                    <p><strong>Interfaces visuales</strong></p>
+                    <p>Más fácil de usar</p>
+                </div>
+            </div>
+            <div class="important-note">
+                <p><strong><i class="fas fa-rocket"></i> Tendencia:</strong> Los software evolucionan hacia ser más visuales y fáciles de usar.</p>
+            </div>
+        </div>
+
+        <!-- Slide 19: Resultados - Tabla Comparativa -->
+        <div class="slide">
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-table"></i> RESULTADO: Comparación de Autores</h2>
             <div class="comparison-table">
                 <table>
                     <thead>
                         <tr>
-                            <th>Autor</th>
-                            <th>Su especialidad</th>
-                            <th>Como un...</th>
+                            <th>Autor/Año</th>
+                            <th>Su Aporte Principal</th>
+                            <th>Enfoque</th>
+                            <th>Su "Superpoder"</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>Barceló</strong></td>
-                            <td>Simulación paso a paso</td>
-                            <td>👨‍🏫 Profesor estricto</td>
+                            <td><strong>Barceló (1996)</strong></td>
+                            <td>Metodología rigurosa</td>
+                            <td>Teórico</td>
+                            <td><i class="fas fa-chalkboard-teacher"></i> Profesor estricto</td>
                         </tr>
                         <tr>
-                            <td><strong>García Dunna</strong></td>
-                            <td>Software ProModel</td>
-                            <td>🔧 Mecánico experto</td>
+                            <td><strong>García Dunna (2013)</strong></td>
+                            <td>ProModel práctico</td>
+                            <td>Aplicado</td>
+                            <td><i class="fas fa-tools"></i> Mecánico experto</td>
                         </tr>
                         <tr>
-                            <td><strong>Torres Vega</strong></td>
-                            <td>Software Arena</td>
-                            <td>🎮 Gamer profesional</td>
+                            <td><strong>Torres Vega (2016)</strong></td>
+                            <td>Arena en la práctica</td>
+                            <td>Software</td>
+                            <td><i class="fas fa-gamepad"></i> Gamer profesional</td>
                         </tr>
                         <tr>
-                            <td><strong>Law & Kelton</strong></td>
-                            <td>Metodología completa</td>
-                            <td>📚 Enciclopedia viviente</td>
+                            <td><strong>Law & Kelton (2015)</strong></td>
+                            <td>Marco metodológico</td>
+                            <td>Integral</td>
+                            <td><i class="fas fa-book"></i> Enciclopedia viviente</td>
                         </tr>
                         <tr>
-                            <td><strong>Cardozo</strong></td>
-                            <td>Energía solar</td>
-                            <td>☀️ Científico verde</td>
+                            <td><strong>Cardozo (2019)</strong></td>
+                            <td>Energía renovable</td>
+                            <td>Especializado</td>
+                            <td><i class="fas fa-leaf"></i> Científico verde</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Maldonado (2010)</strong></td>
+                            <td>Sistemas complejos</td>
+                            <td>Conceptual</td>
+                            <td><i class="fas fa-brain"></i> Filósofo científico</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
+        <!-- Slide 20: Discusión -->
+        <div class="slide">
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-comments"></i> DISCUSIÓN: ¿Qué Significa Todo Esto?</h2>
+            <div class="conclusion-grid">
+                <div class="conclusion-card">
+                    <h3><i class="fas fa-check-circle"></i> CONSENSOS</h3>
+                    <p><strong>En qué todos están de acuerdo:</strong></p>
+                    <p>• Definiciones básicas</p>
+                    <p>• Pasos metodológicos</p>
+                    <p>• Importancia para decisiones</p>
+                </div>
+                <div class="conclusion-card">
+                    <h3><i class="fas fa-exchange-alt"></i> DIFERENCIAS</h3>
+                    <p><strong>En qué difieren:</strong></p>
+                    <p>• Enfoque (teórico vs práctico)</p>
+                    <p>• Software preferido</p>
+                    <p>• Áreas de especialización</p>
+                </div>
+                <div class="conclusion-card">
+                    <h3><i class="fas fa-chart-line"></i> EVOLUCIÓN</h3>
+                    <p><strong>Cómo ha cambiado:</strong></p>
+                    <p>• De académico a profesional</p>
+                    <p>• Software más amigable</p>
+                    <p>• Aplicaciones más diversas</p>
+                </div>
+                <div class="conclusion-card">
+                    <h3><i class="fas fa-crystal-ball"></i> TENDENCIAS</h3>
+                    <p><strong>Hacia dónde va:</strong></p>
+                    <p>• Métodos híbridos</p>
+                    <p>• Inteligencia Artificial</p>
+                    <p>• Simulación en tiempo real</p>
+                </div>
+            </div>
+            <div class="important-note">
+                <p><strong><i class="fas fa-bullseye"></i> Mensaje clave:</strong> La simulación es una ciencia madura pero sigue evolucionando.</p>
+            </div>
+        </div>
+
+        <!-- Slide 21: Conclusiones Finales -->
+        <div class="slide">
+            <div class="pixel-corner corner-tl"></div>
+            <div class="pixel-corner corner-tr"></div>
+            <div class="pixel-corner corner-bl"></div>
+            <div class="pixel-corner corner-br"></div>
+            
+            <h2><i class="fas fa-flag-checkered"></i> CONCLUSIONES FINALES</h2>
+            <div class="conclusion-grid">
+                <div class="conclusion-card">
+                    <h3><i class="fas fa-1"></i> SISTEMAS Y MODELOS</h3>
+                    <p>Consenso total: los modelos son herramientas indispensables para estudiar sistemas complejos.</p>
+                </div>
+                <div class="conclusion-card">
+                    <h3><i class="fas fa-2"></i> DIVERSIDAD DE ENFOQUES</h3>
+                    <p>La simulación se adapta a cualquier problema: continua, discreta, determinística, estocástica.</p>
+                </div>
+                <div class="conclusion-card">
+                    <h3><i class="fas fa-3"></i> ROL ESTRATÉGICO</h3>
+                    <p>Ya no es solo una herramienta técnica, sino una estrategia para tomar mejores decisiones.</p>
+                </div>
+                <div class="conclusion-card">
+                    <h3><i class="fas fa-4"></i> EVOLUCIÓN TECNOLÓGICA</h3>
+                    <p>El software evoluciona hacia interfaces más amigables y capacidades multimétodo.</p>
+                </div>
+                <div class="conclusion-card">
+                    <h3><i class="fas fa-5"></i> METODOLOGÍA CONSENSUADA</h3>
+                    <p>Todos los expertos coinciden en los pasos básicos de un proyecto de simulación.</p>
+                </div>
+                <div class="conclusion-card">
+                    <h3><i class="fas fa-6"></i> FUTURO PROMETEDOR</h3>
+                    <p>La simulación seguirá creciendo con IA, realidad virtual y computación en la nube.</p>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <h3><i class="fas fa-rocket"></i> MENSAJE FINAL</h3>
+                <p>La simulación es la herramienta del futuro para entender y mejorar nuestro mundo complejo.</p>
+            </div>
+        </div>
+
         <div class="navigation">
-            <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">⬅️ Anterior</button>
-            <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Siguiente ➡️</button>
+            <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)"><i class="fas fa-arrow-left"></i> Anterior</button>
+            <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Siguiente <i class="fas fa-arrow-right"></i></button>
         </div>
     </div>
 
@@ -423,6 +1207,31 @@
         const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
 
+        // Section mapping for indicator
+        const sectionMap = {
+            0: "INTRODUCCIÓN",
+            1: "INTRODUCCIÓN", 
+            2: "MARCO TEÓRICO",
+            3: "MARCO TEÓRICO",
+            4: "MARCO TEÓRICO",
+            5: "MARCO TEÓRICO",
+            6: "MARCO TEÓRICO",
+            7: "MARCO TEÓRICO",
+            8: "MARCO TEÓRICO",
+            9: "MARCO TEÓRICO",
+            10: "MARCO TEÓRICO",
+            11: "MARCO TEÓRICO",
+            12: "METODOLOGÍA",
+            13: "RESULTADOS",
+            14: "RESULTADOS",
+            15: "RESULTADOS",
+            16: "RESULTADOS",
+            17: "RESULTADOS",
+            18: "DISCUSIÓN",
+            19: "CONCLUSIONES",
+            20: "CONCLUSIONES"
+        };
+
         document.getElementById('totalSlides').textContent = totalSlides;
 
         function showSlide(index) {
@@ -430,6 +1239,7 @@
             slides[index].classList.add('active');
             
             document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('sectionIndicator').textContent = sectionMap[index] || "CONTENIDO";
             
             // Update navigation buttons
             document.getElementById('prevBtn').disabled = index === 0;
@@ -446,28 +1256,70 @@
 
         // Keyboard navigation
         document.addEventListener('keydown', function(event) {
-            if (event.key === 'ArrowLeft') {
+            if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
                 changeSlide(-1);
-            } else if (event.key === 'ArrowRight') {
+            } else if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
                 changeSlide(1);
+            } else if (event.key === 'Home') {
+                currentSlideIndex = 0;
+                showSlide(currentSlideIndex);
+            } else if (event.key === 'End') {
+                currentSlideIndex = totalSlides - 1;
+                showSlide(currentSlideIndex);
             }
         });
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', function(event) {
+            touchStartX = event.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', function(event) {
+            touchEndX = event.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swipe left - next slide
+                    changeSlide(1);
+                } else {
+                    // Swipe right - previous slide
+                    changeSlide(-1);
+                }
+            }
+        }
 
         // Initialize
         showSlide(0);
 
-        // Auto-advance slides (optional)
-        let autoAdvance = false;
-        if (autoAdvance) {
-            setInterval(() => {
-                if (currentSlideIndex < totalSlides - 1) {
-                    changeSlide(1);
-                } else {
-                    currentSlideIndex = 0;
-                    showSlide(0);
-                }
-            }, 10000); // 10 seconds
+        // Prevent context menu on long press (mobile)
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+        });
+
+        // Add fullscreen support
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
         }
+
+        // Add F key for fullscreen
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'f' || event.key === 'F') {
+                toggleFullscreen();
+            }
+        });
     </script>
 </body>
 </html>
